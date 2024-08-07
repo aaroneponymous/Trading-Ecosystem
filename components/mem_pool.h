@@ -6,7 +6,7 @@
 
 #include "macros.h"
 
-namespace Common
+namespace Components
 {
 
     template <typename T>

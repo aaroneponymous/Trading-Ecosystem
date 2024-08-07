@@ -1,7 +1,7 @@
 #include "logging.h"
 
 int main(int, char **) {
-    using namespace Common;
+    using namespace Components;
 
     char c = 'd';
     int i = 3;

@@ -7,7 +7,7 @@
 #include <sys/syscall.h>
 
 
-namespace Common {
+namespace Components {
     // set affinity for current thread to be ponned to the provided core_id.
     inline auto setThreadCore(int core_id) noexcept {
         cpu_set_t cpuset;

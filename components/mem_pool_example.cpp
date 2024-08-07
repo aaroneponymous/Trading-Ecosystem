@@ -7,7 +7,7 @@ struct MyStruct
 
 int main(int, char **)
 {
-    using namespace Common;
+    using namespace Components;
 
     MemPool<double> prim_pool(50);
     MemPool<MyStruct> struct_pool(50);

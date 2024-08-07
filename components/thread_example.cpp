@@ -16,7 +16,7 @@ auto dummyFunction(int a, int b, bool sleep) {
 
 int main(int, char **) {
     
-    using namespace Common;
+    using namespace Components;
 
     auto t1 = createAndStartThread(-1, "dummyFunction1", dummyFunction, 12, 21, false);
     auto t2 = createAndStartThread(1, "dummyFunction2", dummyFunction, 15, 51, true);
@@ -34,7 +34,7 @@ int main(int, char **) {
 // Output
 
 /* 
-aaroneponymous@Blade-14:~/Aaron/Projects/hft_book/Building-Low-Latency-Applications-with-CPP/Chapter4$ ./thread_example 
+./thread_example 
 Set core affinity for dummyFunction1 132015225566784 to -1
 dummyFunction(12,21)
 dummyFunction output=33

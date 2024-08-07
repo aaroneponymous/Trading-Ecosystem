@@ -20,7 +20,7 @@
 
 #include "logging.h"
 
-namespace Common {
+namespace Components {
   struct SocketCfg {
     std::string ip_;
     std::string iface_;
@@ -96,7 +96,7 @@ namespace Common {
 
     const auto ip = socket_cfg.ip_.empty() ? getIfaceIP(socket_cfg.iface_) : socket_cfg.ip_;
     logger.log("%:% %() % cfg:%\n", __FILE__, __LINE__, __FUNCTION__,
-               Common::getCurrentTimeStr(&time_str), socket_cfg.toString());
+               Components::getCurrentTimeStr(&time_str), socket_cfg.toString());
 
     const int input_flags = (socket_cfg.is_listening_ ? AI_PASSIVE : 0) | (AI_NUMERICHOST | AI_NUMERICSERV);
     const addrinfo hints{input_flags, AF_INET, socket_cfg.is_udp_ ? SOCK_DGRAM : SOCK_STREAM,
@@ -135,7 +135,7 @@ namespace Common {
         ASSERT(listen(socket_fd, MaxTCPServerBacklog) == 0, "listen() failed. errno:" + std::string(strerror(errno)));
       }
 
-      if (socket_cfg.needs_so_timestamp_) { // enable software receive timestamps.
+      if (socket_cfg.needs_so_timestamp_ttl_) { // enable software receive timestamps.
         ASSERT(setSOTimestamp(socket_fd), "setSOTimestamp() failed. errno:" + std::string(strerror(errno)));
       }
     }

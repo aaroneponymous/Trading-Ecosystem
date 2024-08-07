@@ -4,7 +4,7 @@
 #include <chrono>
 #include <ctime>
 
-namespace Common {
+namespace Components {
     typedef int64_t Nanos;
 
     constexpr Nanos NANOS_TO_MICROS = 1000;

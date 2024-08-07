@@ -9,7 +9,7 @@
 #include "thread_utils.h"
 #include "time_utils.h"
 
-namespace Common {
+namespace Components {
   constexpr size_t LOG_QUEUE_SIZE = 8 * 1024 * 1024;
 
   enum class LogType : int8_t {
@@ -93,7 +93,7 @@ namespace Common {
 
     ~Logger() {
       std::string time_str;
-      std::cerr << Common::getCurrentTimeStr(&time_str) << " Flushing and closing Logger for " << file_name_ << std::endl;
+      std::cerr << Components::getCurrentTimeStr(&time_str) << " Flushing and closing Logger for " << file_name_ << std::endl;
 
       while (queue_.size()) {
         using namespace std::literals::chrono_literals;
@@ -103,7 +103,7 @@ namespace Common {
       logger_thread_->join();
 
       file_.close();
-      std::cerr << Common::getCurrentTimeStr(&time_str) << " Logger for " << file_name_ << " exiting." << std::endl;
+      std::cerr << Components::getCurrentTimeStr(&time_str) << " Logger for " << file_name_ << " exiting." << std::endl;
     }
 
     auto pushValue(const LogElement &log_element) noexcept {
