@@ -17,11 +17,11 @@ This project aims to implement a basic Market Publisher - Market Client trading 
 - Exchange protocols
 - High-frequency trading concepts
 
-## Improvements
+## Potential Improvements
 
 - **Control Flow Optimizations**
   - **Semi-static Conditions in Low-latency C for High Frequency Trading: Better than Branch Prediction Hints**
-  - **semi-static conditions compared against [[likely]] & [[unlikely]] attributes in C++
+  - **semi-static conditions compared against [[likely]] & [[unlikely]] attributes in C++**
   - Link: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4553439
   - Github: https://github.com/maxlucuta/semi-static-conditions
 
@@ -29,6 +29,7 @@ This project aims to implement a basic Market Publisher - Market Client trading 
   - **AF_XDP & io_uring**
   - **The Anatomy of Networking in High-Frequency Trading - Peter P. Waskiewicz**
   - Link: https://netdevconf.info/0x16/papers/43/pj-netdev-0x16.pdf
+ 
 
 ## Guidelines
 
