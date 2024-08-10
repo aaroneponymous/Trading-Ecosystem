@@ -46,3 +46,51 @@
 
   - IO with io_uring for Async-IO
     - Read the reference to utilize
+
+### AF_XDP
+// struct xdp_rxtx_ring {
+//  __u32 *producer;
+//  __u32 *consumer;
+//  struct xdp_desc *desc;
+// };
+
+// struct xdp_umem_ring {
+//  __u32 *producer;
+//  __u32 *consumer;
+//  __u64 *desc;
+// };
+
+// typedef struct xdp_rxtx_ring RING;
+// typedef struct xdp_umem_ring RING;
+
+// typedef struct xdp_desc RING_TYPE;
+// typedef __u64 RING_TYPE;
+
+int dequeue_one(RING *ring, RING_TYPE *item)
+{
+    __u32 entries = *ring->producer - *ring->consumer;
+
+    if (entries == 0)
+        return -1;
+
+    // read-barrier!
+
+    *item = ring->desc[*ring->consumer & (RING_SIZE - 1)];
+    (*ring->consumer)++;
+    return 0;
+}
+
+int enqueue_one(RING *ring, const RING_TYPE *item)
+{
+    u32 free_entries = RING_SIZE - (*ring->producer - *ring->consumer);
+
+    if (free_entries == 0)
+        return -1;
+
+    ring->desc[*ring->producer & (RING_SIZE - 1)] = *item;
+
+    // write-barrier!
+
+    (*ring->producer)++;
+    return 0;
+}
