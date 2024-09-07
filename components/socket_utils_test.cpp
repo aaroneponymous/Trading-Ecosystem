@@ -3,7 +3,7 @@
 
 int main() {
     std::cout << Components::getIfaceIP("lo") << std::endl;
-    std::cout << Components::getIfaceIP("wlp4s0") << std::endl;
+    std::cout << Components::getIfaceIP("wlp2s0") << std::endl;
 
     return 0;
 }
