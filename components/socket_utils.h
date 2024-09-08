@@ -110,7 +110,7 @@ namespace Components {
 
       std::string time_str;
 
-      const auto ip = socket_cfg.ip_.empty() ? getIfaceIP(socket_cfg.ifacesetsockopt_) : socket_cfg.ip_;
+      const auto ip = socket_cfg.ip_.empty() ? getIfaceIP(socket_cfg.iface_) : socket_cfg.ip_;
       logger.log("%:% %() % cfg:%\n", __FILE__, __LINE__, __FUNCTION__, 
                  Components::getCurrentTimeStr(&time_str), socket_cfg.toString());
 
