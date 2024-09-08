@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <unordered_set>
 #include <sys/epoll.h>
 #include <unistd.h>
@@ -19,6 +20,28 @@
 #include "logging.h"
 
 namespace Components {
+
+  struct SocketCfg {
+    std::string ip_;
+    std::string iface_;
+    int port_ = -1;
+    bool is_udp_ = false;
+    bool is_listening_ = false;
+    bool needs_SO_timestamp_ = false;
+
+    auto toString() const {
+      std::stringstream ss;
+      ss << "SocketCfg[ip:" << ip_
+      << " iface:" << iface_
+      << " port:" << port_
+      << " is_dup" << is_udp_
+      << " is_listening" << is_listening_
+      << " needs_SO_timestamp" << needs_SO_timestamp_
+      << " ]";
+
+      return ss.str();
+    }
+  };
 
 
     // Max number of pending / unaccepted TCP connections
@@ -52,21 +75,28 @@ namespace Components {
     }
 
     // Disable Nagle's Algorithm and associated delays
-    
+    inline auto disableNagle(int fd) -> bool {
+      int one = 1;
+      return (setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<void *>(&one), sizeof(one)) != -1);
+    } 
+
+    // Allow software to receive timestamps on incoming packets
+    inline auto setSOTimestamp(int fd) -> bool {
+      int one = 1;
+      return (setsockopt(fd, SOL_SOCKET, SO_TIMESTAMP, reinterpret_cast<void *>(&one), sizeof(one) != -1));
+    }
+
+    auto wouldBlock() -> bool {
+      return (errno == EWOULDBLOCK || errno == EINPROGRESS);
+    }
+
+    // Time-To-Live (TTL) is a network level setting
+    // Controls the maximum number of hops that a packet can take from sender to receiver
+    inline auto setTTL(int fd, int ttl) -> bool {
+      return (setsockopt(fd, IPPROTO_IP, IP_TTL, reinterpret_cast<void*>(&ttl), sizeof(ttl)) != -1);
+    }
 
 
-
-
-
-
-
-   
-
-    auto setNoDelay(int fd) -> bool;
-    auto setSOTimeStamp(int fd) -> bool;
-    auto wouldBlock() -> bool;
-    auto setMcastTTL(int fd, int ttl) -> bool;
-    auto setTTL(int fd, int ttl) -> bool;
     auto join(int fd, const std::string &ip, const std::string &iface, int port) -> bool;
 
 
